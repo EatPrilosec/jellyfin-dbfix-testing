@@ -2,6 +2,8 @@
 
 This repository builds a Docker image from the `Shadowghost/jellyfin` fork using the `perf-rebased` branch.
 
+The final image is based on the official `jellyfin/jellyfin:latest` container and overlays the compiled forked Jellyfin runtime.
+
 ## Image name
 
 Use this image in your YAML as:
@@ -22,7 +24,8 @@ The workflow at `.github/workflows/docker-build-push.yml`:
 
 - clones `https://github.com/Shadowghost/jellyfin.git` branch `perf-rebased`
 - builds Jellyfin with .NET 10.0
-- pushes `ghcr.io/jellyfin-dbfix-testing/jellyfin:latest` to GitHub Container Registry
+- copies the compiled runtime into the official `jellyfin/jellyfin:latest` container base
+- pushes `ghcr.io/eatprilosec/jellyfin:latest` to GitHub Container Registry
 
 ## Setup
 
@@ -30,4 +33,4 @@ No external Docker Hub credentials are required.
 
 The workflow uses the built-in GitHub token to publish to GitHub Container Registry.
 
-Then push to `main` or `master`, or run the workflow manually.
+Push to `main` or `master`, or run the workflow manually.
