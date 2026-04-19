@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libxrender1 \
       libxi6 \
       libxrandr2 \
-      libasound2 \
+      libasound2t64 \
       libnss3 \
       libxcomposite1 \
       libxdamage1 \
