@@ -42,5 +42,5 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/jellyfin:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/jellyfin:${{ github.sha }}
+            ghcr.io/eatprilosec/jellyfin:latest
+            ghcr.io/eatprilosec/jellyfin:${{ github.sha }}
