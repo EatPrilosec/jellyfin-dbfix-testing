@@ -8,7 +8,7 @@ Use this image in your YAML as:
 
 ```yaml
 jellyfin:
-  image: ghcr.io/EatPrilosec/jellyfin:latest
+  image: ghcr.io/eatprilosec/jellyfin:latest
   ports:
     - 8096:8096
   volumes:
