@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   packages: write
-  actions: write  # for updating variables
+  actions: read
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -24,13 +24,11 @@ jobs:
     steps:
       - name: Check for upstream updates
         id: check
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           UPSTREAM_SHA=$(git ls-remote https://github.com/Shadowghost/jellyfin.git refs/heads/perf-rebased | cut -f1)
           echo "upstream_sha=$UPSTREAM_SHA" >> $GITHUB_OUTPUT
           
-          LAST_SHA=$(gh api repos/${{ github.repository }}/actions/variables/LAST_UPSTREAM_SHA --jq '.value // ""' 2>/dev/null || echo "")
+          LAST_SHA=$(cat .last_upstream_sha 2>/dev/null || echo "")
           echo "last_sha=$LAST_SHA" >> $GITHUB_OUTPUT
           
           if [ "$UPSTREAM_SHA" = "$LAST_SHA" ]; then
@@ -75,7 +73,10 @@ jobs:
 
       - name: Update last built SHA
         if: steps.check.outputs.should_build == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          gh api repos/${{ github.repository }}/actions/variables/LAST_UPSTREAM_SHA -X PATCH -f value=${{ steps.check.outputs.upstream_sha }}
+          echo ${{ steps.check.outputs.upstream_sha }} > .last_upstream_sha
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .last_upstream_sha
+          git commit -m "Update last upstream SHA to ${{ steps.check.outputs.upstream_sha }}"
+          git push
