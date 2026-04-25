@@ -2,7 +2,7 @@ name: Build and publish Docker image
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # every 30 minutes
+    - cron: '0 0 * * *'  # every day
   push:
     branches:
       - main
@@ -78,5 +78,5 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .last_upstream_sha
-            git commit -m "Update last upstream SHA to ${{ steps.check.outputs.upstream_sha }}" || echo "No changes to commit"
+          git commit -m "Update last upstream SHA to ${{ steps.check.outputs.upstream_sha }}" || echo "No changes to commit"
           git push
