@@ -18,7 +18,7 @@ RUN apk add --no-cache git
 RUN git clone --branch master https://github.com/jellyfin/jellyfin-web.git .
 
 RUN npm ci
-RUN npm run build:prod
+RUN cat package.json | grep -A 20 '"scripts"'
 
 FROM jellyfin/jellyfin:latest AS runtime
 
