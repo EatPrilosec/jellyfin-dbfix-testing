@@ -14,7 +14,7 @@ RUN dotnet publish Jellyfin.Server/Jellyfin.Server.csproj \
 
 FROM node:24-alpine AS web-build
 WORKDIR /web
-RUN apk add --no-cache wget
+RUN apk add --no-cache wget git
 RUN wget -q https://github.com/jellyfin/jellyfin-web/archive/master.tar.gz -O - | tar xz --strip-components=1
 
 RUN npm ci
