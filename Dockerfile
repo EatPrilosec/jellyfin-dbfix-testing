@@ -14,6 +14,7 @@ RUN dotnet publish Jellyfin.Server/Jellyfin.Server.csproj \
 
 FROM node:20-alpine AS web-build
 WORKDIR /web
+RUN apk add --no-cache git
 RUN git clone --branch master https://github.com/jellyfin/jellyfin-web.git .
 
 RUN npm ci
