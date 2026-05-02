@@ -14,11 +14,11 @@ RUN dotnet publish Jellyfin.Server/Jellyfin.Server.csproj \
 
 FROM node:24-alpine AS web-build
 WORKDIR /web
-RUN apk add --no-cache git
-RUN git clone --branch master https://github.com/jellyfin/jellyfin-web.git .
+RUN apk add --no-cache wget
+RUN wget -q https://github.com/jellyfin/jellyfin-web/archive/master.tar.gz -O - | tar xz --strip-components=1
 
 RUN npm ci
-RUN cat package.json | grep -A 20 '"scripts"'
+RUN npm run build:production
 
 FROM jellyfin/jellyfin:latest AS runtime
 
